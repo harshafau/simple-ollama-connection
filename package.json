@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "start": "cd server && node server.js",
+    "install-all": "npm install && cd server && npm install"
   },
   "dependencies": {
     "react": "^19.0.0",

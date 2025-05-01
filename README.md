@@ -65,12 +65,22 @@ A web application that connects to your local Ollama LLM instance and allows you
    ```
 4. The Procfile will automatically start the proxy server
 
-### Option 2: Railway/Render
+### Option 2: Render (Recommended)
 
-1. Create an account on [Railway](https://railway.app/) or [Render](https://render.com/)
-2. Connect your GitHub repository
-3. Set the build command to `npm run build`
-4. Set the start command to `cd server && npm install && node server.js`
+1. Create an account on [Render](https://render.com/)
+2. Go to the Dashboard and click "New +" and select "Web Service"
+3. Connect your GitHub repository
+4. Configure the service:
+   - Name: `ollama-web-interface` (or any name you prefer)
+   - Environment: `Node`
+   - Region: Choose the closest to you
+   - Branch: `main`
+   - Build Command: `npm install && npm run build && cd server && npm install`
+   - Start Command: `cd server && node server.js`
+   - Instance Type: Free
+5. Click "Create Web Service"
+6. Wait for the deployment to complete (this may take a few minutes)
+7. Once deployed, you can access your application at the URL provided by Render
 
 ### Option 3: Self-hosted Server
 
