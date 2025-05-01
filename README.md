@@ -78,6 +78,10 @@ A web application that connects to your local Ollama LLM instance and allows you
    - Build Command: `npm install && npm run build && cd server && npm install`
    - Start Command: `cd server && node server.js`
    - Instance Type: Free
+   - Environment Variables (optional, these are set in render.yaml):
+     - `PORT`: 10000 (Render will set this automatically)
+     - `NODE_ENV`: production
+     - `CORS_ORIGIN`: * (allows requests from any origin)
 5. Click "Create Web Service"
 6. Wait for the deployment to complete (this may take a few minutes)
 7. Once deployed, you can access your application at the URL provided by Render
@@ -108,6 +112,18 @@ A web application that connects to your local Ollama LLM instance and allows you
 2. The proxy server forwards these requests to your local Ollama instance
 3. The proxy server receives the response from Ollama and sends it back to the frontend
 4. This approach avoids CORS issues that would normally occur when accessing a local API from a deployed website
+
+## Environment Variables
+
+The application uses the following environment variables:
+
+| Variable | Description | Default |
+|----------|-------------|---------|
+| PORT | The port on which the server will run | 3001 |
+| NODE_ENV | The environment mode (development/production) | development |
+| CORS_ORIGIN | Allowed origins for CORS | * (all origins) |
+
+These variables are automatically set when deploying to Render using the render.yaml configuration file.
 
 ## License
 

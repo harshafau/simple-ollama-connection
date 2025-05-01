@@ -13,9 +13,23 @@ const PORT = process.env.PORT || 3001;
 // Log environment info for debugging
 console.log(`Node environment: ${process.env.NODE_ENV}`);
 console.log(`Server starting on port: ${PORT}`);
+console.log(`CORS origin: ${process.env.CORS_ORIGIN || '*'}`);
 
-// Enable CORS for all routes
-app.use(cors());
+// Add request logging middleware
+app.use((req, res, next) => {
+  console.log(`${new Date().toISOString()} - ${req.method} ${req.url}`);
+  next();
+});
+
+// Configure CORS
+const corsOptions = {
+  origin: process.env.CORS_ORIGIN || '*',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+};
+
+// Enable CORS with options
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // Serve static files from the React app
