@@ -28,9 +28,12 @@ function ConnectionForm({ onConnectionSuccess }) {
     <div className="connection-form">
       <h2>Connect to Your Local Ollama Instance</h2>
       <p>
-        Make sure you have Ollama running locally and have enabled CORS in your browser.
+        Make sure you have Ollama running locally on your machine.
       </p>
-      
+      <p className="info-message">
+        This app uses a proxy server to handle CORS issues, so you don't need a CORS browser extension anymore!
+      </p>
+
       <form onSubmit={handleConnect}>
         <div className="form-group">
           <label htmlFor="ollamaUrl">Ollama URL:</label>
@@ -43,20 +46,24 @@ function ConnectionForm({ onConnectionSuccess }) {
             required
           />
         </div>
-        
+
         <button type="submit" disabled={isConnecting}>
           {isConnecting ? 'Connecting...' : 'Connect'}
         </button>
       </form>
-      
+
       {error && (
         <div className="error-message">
           <p>{error}</p>
-          <div className="cors-help">
-            <h3>CORS Issues?</h3>
+          <div className="connection-help">
+            <h3>Connection Issues?</h3>
             <p>
-              If you're seeing CORS errors, you need to enable CORS in your browser.
-              You can use a browser extension like "CORS Unblock" or "Allow CORS".
+              Make sure:
+              <ul>
+                <li>Ollama is running on your machine</li>
+                <li>The URL is correct (usually http://localhost:11434)</li>
+                <li>Your firewall is not blocking the connection</li>
+              </ul>
             </p>
           </div>
         </div>

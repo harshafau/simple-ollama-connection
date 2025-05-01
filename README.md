@@ -7,27 +7,35 @@ A web application that connects to your local Ollama LLM instance and allows you
 - Connect to your local Ollama instance
 - Send prompts to any model installed in your Ollama
 - View responses in a clean, user-friendly interface
-- Works from any web browser with CORS enabled
+- Works from any web browser without requiring CORS extensions
+- Uses a proxy server to handle CORS issues
 
 ## Prerequisites
 
 - [Ollama](https://ollama.ai/) installed and running on your local machine
-- A web browser with CORS enabled (you can use extensions like "CORS Unblock" or "Allow CORS")
 
 ## Getting Started
 
 ### Development
 
 1. Clone this repository
-2. Install dependencies:
+2. Install frontend dependencies:
    ```
    npm install
    ```
-3. Start the development server:
+3. Install proxy server dependencies:
+   ```
+   cd server && npm install && cd ..
+   ```
+4. Start the development server:
    ```
    npm run dev
    ```
-4. Open your browser and navigate to `http://localhost:3000`
+5. Start the proxy server in a separate terminal:
+   ```
+   cd server && node server.js
+   ```
+6. Open your browser and navigate to `http://localhost:3000`
 
 ### Production Build
 
@@ -36,34 +44,60 @@ A web application that connects to your local Ollama LLM instance and allows you
    npm run build
    ```
 2. The built files will be in the `dist` directory
-3. You can serve these files using any static file server
+3. Start the proxy server which will also serve the static files:
+   ```
+   cd server && node server.js
+   ```
+4. Access the application at `http://localhost:3001`
 
 ## Deployment Options
 
-### Option 1: GitHub Pages
+### Option 1: Heroku
 
-1. Create a GitHub repository
-2. Push your code to the repository
-3. Set up GitHub Pages to serve from the `dist` folder
+1. Create a Heroku account and install the Heroku CLI
+2. Create a new Heroku app:
+   ```
+   heroku create your-app-name
+   ```
+3. Push your code to Heroku:
+   ```
+   git push heroku main
+   ```
+4. The Procfile will automatically start the proxy server
 
-### Option 2: Netlify/Vercel
+### Option 2: Railway/Render
 
-1. Create an account on [Netlify](https://www.netlify.com/) or [Vercel](https://vercel.com/)
+1. Create an account on [Railway](https://railway.app/) or [Render](https://render.com/)
 2. Connect your GitHub repository
 3. Set the build command to `npm run build`
-4. Set the publish directory to `dist`
+4. Set the start command to `cd server && npm install && node server.js`
 
-### Option 3: Any Static File Server
+### Option 3: Self-hosted Server
 
 1. Build the application using `npm run build`
-2. Upload the contents of the `dist` directory to any static file server
-3. Access your application through the server's URL
+2. Install the server dependencies:
+   ```
+   cd server && npm install
+   ```
+3. Start the server:
+   ```
+   node server.js
+   ```
+4. Access your application through the server's URL
 
 ## Important Notes
 
-- This application requires CORS to be enabled in your browser to connect to your local Ollama instance
-- The application does not store any data; all communication happens directly between your browser and your local Ollama instance
+- The application uses a proxy server to handle CORS issues, so you don't need a browser extension
+- The application does not store any data; all communication happens securely through the proxy server
 - Make sure your Ollama instance is running before attempting to connect
+- The proxy server only forwards requests to your local Ollama instance and doesn't modify the data
+
+## How It Works
+
+1. The frontend sends requests to the proxy server
+2. The proxy server forwards these requests to your local Ollama instance
+3. The proxy server receives the response from Ollama and sends it back to the frontend
+4. This approach avoids CORS issues that would normally occur when accessing a local API from a deployed website
 
 ## License
 

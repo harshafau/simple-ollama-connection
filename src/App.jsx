@@ -35,7 +35,10 @@ function App() {
 
       <footer>
         <p>
-          Note: This app requires a local Ollama instance and CORS enabled in your browser.
+          Note: This app requires a local Ollama instance running on your machine.
+        </p>
+        <p className="small">
+          Powered by a proxy server to handle CORS issues. <a href="https://github.com/harshafau/simple-ollama-connection" target="_blank" rel="noopener noreferrer">View on GitHub</a>
         </p>
       </footer>
     </div>

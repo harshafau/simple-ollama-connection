@@ -1,6 +1,11 @@
 /**
- * Service to handle communication with the Ollama API
+ * Service to handle communication with the Ollama API through a proxy server
  */
+
+// Get the proxy server URL - in development it's the local server, in production it's the deployed server
+const PROXY_URL = import.meta.env.PROD
+  ? '' // Empty string means use relative URL in production
+  : 'http://localhost:3001';
 
 /**
  * Send a prompt to the Ollama API
@@ -11,15 +16,13 @@
  */
 export const sendPrompt = async (baseUrl, prompt, model = "llama2") => {
   try {
-    // Remove trailing slash if present
-    const cleanBaseUrl = baseUrl.endsWith('/') ? baseUrl.slice(0, -1) : baseUrl;
-    
-    const response = await fetch(`${cleanBaseUrl}/api/generate`, {
+    const response = await fetch(`${PROXY_URL}/proxy/api/generate`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
+        ollamaUrl: baseUrl, // Pass the Ollama URL to the proxy
         model,
         prompt,
         stream: false,
@@ -45,18 +48,19 @@ export const sendPrompt = async (baseUrl, prompt, model = "llama2") => {
  */
 export const testConnection = async (baseUrl) => {
   try {
-    // Remove trailing slash if present
-    const cleanBaseUrl = baseUrl.endsWith('/') ? baseUrl.slice(0, -1) : baseUrl;
-    
-    const response = await fetch(`${cleanBaseUrl}/api/tags`, {
-      method: 'GET',
+    const response = await fetch(`${PROXY_URL}/proxy/api/tags`, {
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
+      body: JSON.stringify({
+        ollamaUrl: baseUrl, // Pass the Ollama URL to the proxy
+      }),
     });
 
     if (!response.ok) {
-      throw new Error(`Error: ${response.status} ${response.statusText}`);
+      const errorData = await response.json().catch(() => null);
+      throw new Error(errorData?.error || `Error: ${response.status} ${response.statusText}`);
     }
 
     // If we get here, the connection was successful
