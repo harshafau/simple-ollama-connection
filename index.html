@@ -1,13 +1,196 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/png" href="/ollama-favicon.png" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Simple Ollama Connection</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/png" href="images/favicon.png">
+    <meta name="description" content="A desktop application that connects to your local Ollama LLM instance and allows you to interact with it through a clean, user-friendly interface.">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <img src="images/app-icon.png" alt="Simple Ollama Connection Logo">
+                <h1>Simple Ollama Connection</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#download">Download</a></li>
+                    <li><a href="#usage">Usage</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Chat with Your Local LLMs</h1>
+                <p>A desktop application that connects to your local Ollama instance and allows you to interact with your LLMs through a clean, user-friendly interface.</p>
+                <div class="cta-buttons">
+                    <a href="#download" class="btn btn-primary">Download for macOS</a>
+                    <a href="https://github.com/harshafau/simple-ollama-connection" class="btn btn-secondary">View on GitHub</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="images/app-screenshot.png" alt="Simple Ollama Connection Screenshot">
+            </div>
+        </div>
+    </section>
+
+    <section id="features" class="features">
+        <div class="container">
+            <h2>Features</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🔌</div>
+                    <h3>Easy Connection</h3>
+                    <p>Connect to your local Ollama instance with just a few clicks. No complex configuration required.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🤖</div>
+                    <h3>Model Selection</h3>
+                    <p>Choose from any model installed in your Ollama instance. The app automatically detects available models.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💬</div>
+                    <h3>Chat Interface</h3>
+                    <p>Send prompts and view responses in a clean, user-friendly interface with proper markdown rendering.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3>Privacy-Focused</h3>
+                    <p>All communication happens locally. Your data never leaves your computer.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>Desktop App</h3>
+                    <p>Available as a native desktop application for macOS. No browser or CORS issues.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📝</div>
+                    <h3>Markdown Support</h3>
+                    <p>Responses properly render markdown formatting, including code blocks, lists, and tables.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="download" class="download">
+        <div class="container">
+            <h2>Download</h2>
+            <div class="download-options">
+                <div class="download-card">
+                    <img src="images/macos-icon.png" alt="macOS Icon">
+                    <h3>macOS</h3>
+                    <p>For Apple Silicon (M1/M2/M3) Macs</p>
+                    <a href="https://github.com/harshafau/simple-ollama-connection/releases/download/v1.0.0/Simple.Ollama.Connection-1.0.0-arm64.dmg" class="btn btn-primary">Download DMG</a>
+                    <p class="version">Version 1.0.0</p>
+                </div>
+            </div>
+            <div class="system-requirements">
+                <h3>System Requirements</h3>
+                <ul>
+                    <li><strong>OS:</strong> macOS 10.12 or later</li>
+                    <li><strong>Architecture:</strong> Apple Silicon (arm64)</li>
+                    <li><strong>Disk Space:</strong> 100 MB</li>
+                    <li><strong>Prerequisites:</strong> <a href="https://ollama.ai/" target="_blank">Ollama</a> installed and running</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="usage" class="usage">
+        <div class="container">
+            <h2>How to Use</h2>
+            <div class="usage-steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Install the Application</h3>
+                    <p>Download the DMG file, open it, and drag the application to your Applications folder.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Start Ollama</h3>
+                    <p>Make sure Ollama is running on your computer. The default URL is http://localhost:11434.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Connect to Ollama</h3>
+                    <p>Open the application, enter your Ollama URL, and click "Connect".</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h3>Select a Model</h3>
+                    <p>Choose from the available models detected from your Ollama instance.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">5</div>
+                    <h3>Start Chatting</h3>
+                    <p>Enter your prompt and click "Send Prompt" to start chatting with your local LLM.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="faq" class="faq">
+        <div class="container">
+            <h2>Frequently Asked Questions</h2>
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <h3>Is my data secure?</h3>
+                    <p>Yes. All communication happens locally between the app and your Ollama instance. No data is sent to external servers.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>Why do I see a security warning?</h3>
+                    <p>The app isn't signed with an Apple Developer certificate. To open it, go to System Preferences → Security & Privacy and click "Open Anyway".</p>
+                </div>
+                <div class="faq-item">
+                    <h3>Which models are supported?</h3>
+                    <p>Any model that works with Ollama is supported. The app will automatically detect all models installed in your Ollama instance.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>Do I need an internet connection?</h3>
+                    <p>No, the app works entirely offline as long as Ollama is running on your computer.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>Is Windows support coming?</h3>
+                    <p>Yes, Windows support is planned for a future release.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>How do I report issues?</h3>
+                    <p>Please report any issues on the <a href="https://github.com/harshafau/simple-ollama-connection/issues">GitHub repository</a>.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <img src="images/app-icon.png" alt="Simple Ollama Connection Logo">
+                    <h3>Simple Ollama Connection</h3>
+                </div>
+                <div class="footer-links">
+                    <h4>Links</h4>
+                    <ul>
+                        <li><a href="https://github.com/harshafau/simple-ollama-connection">GitHub Repository</a></li>
+                        <li><a href="https://github.com/harshafau/simple-ollama-connection/issues">Report Issues</a></li>
+                        <li><a href="https://ollama.ai/">Ollama Website</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Simple Ollama Connection. MIT License.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
 </html>
