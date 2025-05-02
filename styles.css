@@ -266,7 +266,7 @@ nav a:hover {
 }
 
 .system-requirements {
-    max-width: 600px;
+    max-width: 800px;
     margin: 0 auto;
     background-color: var(--bg-card);
     border-radius: 12px;
@@ -278,6 +278,20 @@ nav a:hover {
     font-size: 1.5rem;
     margin-bottom: 1.5rem;
     color: var(--primary-color);
+    text-align: center;
+}
+
+.requirements-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+.requirements-column h4 {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    color: var(--primary-color);
+    text-align: center;
 }
 
 .system-requirements ul {
@@ -295,6 +309,12 @@ nav a:hover {
     position: absolute;
     left: 0;
     color: var(--primary-color);
+}
+
+@media (max-width: 768px) {
+    .requirements-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 /* Usage Section */
