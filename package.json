@@ -12,6 +12,7 @@
     "install-all": "npm install && cd server && npm install"
   },
   "dependencies": {
+    "markdown-to-jsx": "^7.7.6",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },

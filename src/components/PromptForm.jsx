@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { sendPrompt } from '../services/ollamaService';
+import Markdown from 'markdown-to-jsx';
 
 /**
  * Component for sending prompts to the Ollama API
@@ -31,7 +32,7 @@ function PromptForm({ ollamaUrl }) {
   return (
     <div className="prompt-container">
       <h2>Chat with Your Local LLM</h2>
-      
+
       <div className="model-selector">
         <label htmlFor="model">Model:</label>
         <input
@@ -42,7 +43,7 @@ function PromptForm({ ollamaUrl }) {
           placeholder="Enter model name (e.g., llama2)"
         />
       </div>
-      
+
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="prompt">Your Prompt:</label>
@@ -55,23 +56,39 @@ function PromptForm({ ollamaUrl }) {
             required
           />
         </div>
-        
+
         <button type="submit" disabled={isLoading || !prompt.trim()}>
           {isLoading ? 'Generating...' : 'Send Prompt'}
         </button>
       </form>
-      
+
       {error && (
         <div className="error-message">
           <p>{error}</p>
         </div>
       )}
-      
+
       {response && (
         <div className="response">
           <h3>Response:</h3>
           <div className="response-content">
-            {response.response}
+            <Markdown options={{
+              forceBlock: true,
+              overrides: {
+                pre: {
+                  props: {
+                    className: 'code-block'
+                  }
+                },
+                code: {
+                  props: {
+                    className: 'code'
+                  }
+                }
+              }
+            }}>
+              {response.response}
+            </Markdown>
           </div>
           {response.eval_count && (
             <div className="response-meta">
