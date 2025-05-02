@@ -33,7 +33,7 @@
   },
   "build": {
     "appId": "com.simpleollamaconnection.app",
-    "productName": "Simple Ollama Connection",
+    "productName": "SimpleOllamaConnection",
     "files": [
       "main.js",
       "preload.js"
@@ -58,15 +58,16 @@
     "win": {
       "icon": "build/icons/icon.ico",
       "target": ["nsis"],
-      "artifactName": "${productName}-${version}-setup.${ext}"
+      "artifactName": "${productName}-Setup-${version}.${ext}"
     },
     "nsis": {
       "oneClick": false,
       "allowToChangeInstallationDirectory": true,
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
-      "shortcutName": "Simple Ollama Connection",
-      "uninstallDisplayName": "Simple Ollama Connection"
+      "shortcutName": "SimpleOllamaConnection",
+      "uninstallDisplayName": "SimpleOllamaConnection",
+      "artifactName": "${productName}-Setup-${version}.${ext}"
     },
     "dmg": {
       "contents": [

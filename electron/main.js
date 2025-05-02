@@ -17,9 +17,14 @@ const createProxyServer = () => {
   server.use(cors());
   server.use(express.json());
 
+  // Determine the correct path for static files
+  const distPath = isDev
+    ? path.join(__dirname, '../dist')
+    : path.join(process.resourcesPath, 'dist');
+
   // Serve static files from the React app
-  server.use(express.static(path.join(__dirname, '../dist')));
-  console.log('Serving static files from:', path.join(__dirname, '../dist'));
+  server.use(express.static(distPath));
+  console.log('Serving static files from:', distPath);
 
   // Proxy endpoint for Ollama API generate
   server.post('/proxy/api/generate', async (req, res) => {
@@ -141,7 +146,9 @@ const createProxyServer = () => {
 
   // Catch-all route to serve the index.html file
   server.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../dist/index.html'));
+    const indexPath = path.join(distPath, 'index.html');
+    console.log('Serving index.html from:', indexPath);
+    res.sendFile(indexPath);
   });
 
   // Start the server
@@ -295,6 +302,9 @@ function getAppVersion() {
   return app.getVersion();
 }
 
+// Set the app name
+app.name = "SimpleOllamaConnection";
+
 // Start the proxy server and create the window when Electron is ready
 app.whenReady().then(() => {
   // Start the proxy server
@@ -320,6 +330,11 @@ app.on('window-all-closed', () => {
     app.quit();
   }
 });
+
+// Special handling for Windows
+if (process.platform === 'win32') {
+  console.log('Running on Windows platform');
+}
 
 // Handle any uncaught exceptions
 process.on('uncaughtException', (error) => {
