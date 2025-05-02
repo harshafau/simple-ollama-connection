@@ -17,18 +17,22 @@ const createProxyServer = () => {
   server.use(cors());
   server.use(express.json());
 
+  // Serve static files from the React app
+  server.use(express.static(path.join(__dirname, '../dist')));
+  console.log('Serving static files from:', path.join(__dirname, '../dist'));
+
   // Proxy endpoint for Ollama API generate
   server.post('/proxy/api/generate', async (req, res) => {
     try {
       const { ollamaUrl, ...requestData } = req.body;
-      
+
       if (!ollamaUrl) {
         return res.status(400).json({ error: 'Ollama URL is required' });
       }
 
       // Remove trailing slash if present
       const cleanBaseUrl = ollamaUrl.endsWith('/') ? ollamaUrl.slice(0, -1) : ollamaUrl;
-      
+
       const response = await axios.post(`${cleanBaseUrl}/api/generate`, requestData, {
         headers: {
           'Content-Type': 'application/json',
@@ -38,7 +42,7 @@ const createProxyServer = () => {
       res.json(response.data);
     } catch (error) {
       console.error('Error proxying to Ollama:', error.message);
-      
+
       if (error.response) {
         // Forward Ollama's error response
         return res.status(error.response.status).json({
@@ -46,8 +50,8 @@ const createProxyServer = () => {
           status: error.response.status
         });
       }
-      
-      res.status(500).json({ 
+
+      res.status(500).json({
         error: error.message,
         details: 'Could not connect to Ollama. Make sure Ollama is running and the URL is correct.'
       });
@@ -58,14 +62,14 @@ const createProxyServer = () => {
   server.post('/proxy/api/tags', async (req, res) => {
     try {
       const { ollamaUrl } = req.body;
-      
+
       if (!ollamaUrl) {
         return res.status(400).json({ error: 'Ollama URL is required' });
       }
 
       // Remove trailing slash if present
       const cleanBaseUrl = ollamaUrl.endsWith('/') ? ollamaUrl.slice(0, -1) : ollamaUrl;
-      
+
       const response = await axios.get(`${cleanBaseUrl}/api/tags`, {
         headers: {
           'Content-Type': 'application/json',
@@ -75,7 +79,7 @@ const createProxyServer = () => {
       res.json(response.data);
     } catch (error) {
       console.error('Error testing connection to Ollama:', error.message);
-      
+
       if (error.response) {
         // Forward Ollama's error response
         return res.status(error.response.status).json({
@@ -83,12 +87,17 @@ const createProxyServer = () => {
           status: error.response.status
         });
       }
-      
-      res.status(500).json({ 
+
+      res.status(500).json({
         error: error.message,
         details: 'Could not connect to Ollama. Make sure Ollama is running and the URL is correct.'
       });
     }
+  });
+
+  // Catch-all route to serve the index.html file
+  server.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../dist/index.html'));
   });
 
   // Start the server
@@ -113,14 +122,12 @@ function createWindow() {
   });
 
   // Load the app
+  // Always load from our proxy server
+  mainWindow.loadURL('http://localhost:3001');
+
+  // Open DevTools in development mode
   if (isDev) {
-    // In development, load from the dev server
-    mainWindow.loadURL('http://localhost:3000');
-    // Open DevTools
     mainWindow.webContents.openDevTools();
-  } else {
-    // In production, load from the built files
-    mainWindow.loadFile(path.join(__dirname, '../dist/index.html'));
   }
 
   // Emitted when the window is closed
@@ -133,7 +140,7 @@ function createWindow() {
 app.whenReady().then(() => {
   // Start the proxy server
   createProxyServer();
-  
+
   // Create the main window
   createWindow();
 

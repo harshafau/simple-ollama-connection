@@ -1,20 +1,32 @@
-# Ollama Web Interface
+# Simple Ollama Connection
 
-A web application that connects to your local Ollama LLM instance and allows you to interact with it through a browser.
+A desktop application that connects to your local Ollama LLM instance and allows you to interact with it through a clean, user-friendly interface.
 
 ## Features
 
 - Connect to your local Ollama instance
 - Send prompts to any model installed in your Ollama
 - View responses in a clean, user-friendly interface
-- Works from any web browser without requiring CORS extensions
-- Uses a proxy server to handle CORS issues
+- Available as a desktop application for macOS and Windows
+- No CORS issues or browser extensions needed
 
 ## Prerequisites
 
 - [Ollama](https://ollama.ai/) installed and running on your local machine
 
-## Getting Started
+## Running the Desktop Application
+
+### Quick Start
+
+1. Make sure Ollama is running on your machine
+2. Run the application using the provided script:
+   ```
+   ./run-app.sh
+   ```
+3. The application will open in a new window
+4. Enter your Ollama URL (default: `http://localhost:11434`)
+5. Connect to your Ollama instance
+6. Start chatting with your local LLMs
 
 ### Development
 
@@ -23,107 +35,75 @@ A web application that connects to your local Ollama LLM instance and allows you
    ```
    npm install
    ```
-3. Install proxy server dependencies:
+3. Install Electron dependencies:
    ```
-   cd server && npm install && cd ..
+   cd electron && npm install && cd ..
    ```
-4. Start the development server:
+4. Start the Electron app in development mode:
    ```
-   npm run dev
+   cd electron && npm start
    ```
-5. Start the proxy server in a separate terminal:
-   ```
-   cd server && node server.js
-   ```
-6. Open your browser and navigate to `http://localhost:3000`
 
-### Production Build
+### Building the Desktop Application
 
-1. Build the application:
+1. Build the React app:
    ```
    npm run build
    ```
-2. The built files will be in the `dist` directory
-3. Start the proxy server which will also serve the static files:
+2. Package the application for your platform:
    ```
-   cd server && node server.js
+   cd electron && npm run package-mac    # For macOS
+   cd electron && npm run package-win    # For Windows
+   cd electron && npm run package-all    # For both platforms
    ```
-4. Access the application at `http://localhost:3001`
+3. The packaged applications will be available in the `electron/dist` directory
 
-## Deployment Options
+## Distribution Options
 
-### Option 1: Heroku
+### Option 1: Direct Distribution
 
-1. Create a Heroku account and install the Heroku CLI
-2. Create a new Heroku app:
-   ```
-   heroku create your-app-name
-   ```
-3. Push your code to Heroku:
-   ```
-   git push heroku main
-   ```
-4. The Procfile will automatically start the proxy server
+1. Package the application for the desired platforms (see "Building the Desktop Application" above)
+2. Distribute the packaged applications directly to users
+3. Users can run the application by:
+   - macOS: Double-clicking the `.app` file or opening the `.dmg` file
+   - Windows: Running the installer or extracting the zip file and running the `.exe` file
 
-### Option 2: Render (Recommended)
+### Option 2: GitHub Releases
 
-1. Create an account on [Render](https://render.com/)
-2. Go to the Dashboard and click "New +" and select "Web Service"
-3. Connect your GitHub repository
-4. Configure the service:
-   - Name: `ollama-web-interface` (or any name you prefer)
-   - Environment: `Node`
-   - Region: Choose the closest to you
-   - Branch: `main`
-   - Build Command: `npm install && npm run build && cd server && npm install`
-   - Start Command: `cd server && node server.js`
-   - Instance Type: Free
-   - Environment Variables (optional, these are set in render.yaml):
-     - `PORT`: 10000 (Render will set this automatically)
-     - `NODE_ENV`: production
-     - `CORS_ORIGIN`: * (allows requests from any origin)
-5. Click "Create Web Service"
-6. Wait for the deployment to complete (this may take a few minutes)
-7. Once deployed, you can access your application at the URL provided by Render
+1. Package the application for all platforms
+2. Create a new release on GitHub
+3. Upload the packaged applications as release assets
+4. Users can download the appropriate version for their platform
 
-### Option 3: Self-hosted Server
+### Option 3: Custom Installer
 
-1. Build the application using `npm run build`
-2. Install the server dependencies:
-   ```
-   cd server && npm install
-   ```
-3. Start the server:
-   ```
-   node server.js
-   ```
-4. Access your application through the server's URL
+1. Package the application for the desired platforms
+2. Create a custom installer that:
+   - Installs the application
+   - Creates desktop shortcuts
+   - Sets up auto-updates (if desired)
+3. Distribute the installer to users
 
 ## Important Notes
 
-- The application uses a proxy server to handle CORS issues, so you don't need a browser extension
-- The application does not store any data; all communication happens securely through the proxy server
-- Make sure your Ollama instance is running before attempting to connect
-- The proxy server only forwards requests to your local Ollama instance and doesn't modify the data
+- Make sure your Ollama instance is running before starting the application
+- The application does not store any data; all communication happens directly with your local Ollama instance
+- The desktop application includes a built-in proxy server to handle CORS issues
 
 ## How It Works
 
-1. The frontend sends requests to the proxy server
-2. The proxy server forwards these requests to your local Ollama instance
-3. The proxy server receives the response from Ollama and sends it back to the frontend
-4. This approach avoids CORS issues that would normally occur when accessing a local API from a deployed website
+1. The Electron app runs a local proxy server in the background
+2. The frontend sends requests to this proxy server
+3. The proxy server forwards these requests to your local Ollama instance
+4. The proxy server receives the response from Ollama and sends it back to the frontend
+5. This approach avoids CORS issues that would normally occur when accessing a local API from a web browser
 
-## Environment Variables
+## Technical Details
 
-The application uses the following environment variables:
-
-| Variable | Description | Default |
-|----------|-------------|---------|
-| PORT | The port on which the server will run | 3001 |
-| NODE_ENV | The environment mode (development/production) | development |
-| CORS_ORIGIN | Allowed origins for CORS | * (all origins) |
-
-These variables are automatically set when deploying to Render using the render.yaml configuration file.
+- **Frontend**: React.js
+- **Desktop Application**: Electron
+- **Proxy Server**: Express.js
+- **Communication**: RESTful API calls to Ollama
 
 ## License
 
