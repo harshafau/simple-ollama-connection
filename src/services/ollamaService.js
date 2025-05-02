@@ -69,3 +69,30 @@ export const testConnection = async (baseUrl) => {
     throw error;
   }
 };
+
+/**
+ * Get available models from the Ollama API
+ * @param {string} baseUrl - The base URL of the Ollama API
+ * @returns {Promise<Array>} - A promise that resolves to an array of available models
+ */
+export const getModels = async (baseUrl) => {
+  try {
+    const response = await fetch(`${PROXY_URL}/api/models?url=${encodeURIComponent(baseUrl)}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => null);
+      throw new Error(errorData?.error || `Error: ${response.status} ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    return data.models || [];
+  } catch (error) {
+    console.error('Error getting models from Ollama:', error);
+    throw error;
+  }
+};

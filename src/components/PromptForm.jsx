@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { sendPrompt } from '../services/ollamaService';
+import { useState, useEffect } from 'react';
+import { sendPrompt, getModels } from '../services/ollamaService';
 import Markdown from 'markdown-to-jsx';
 
 /**
@@ -11,6 +11,37 @@ function PromptForm({ ollamaUrl }) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [model, setModel] = useState('llama2');
+  const [availableModels, setAvailableModels] = useState([]);
+  const [isLoadingModels, setIsLoadingModels] = useState(false);
+  const [modelError, setModelError] = useState(null);
+
+  // Fetch available models when the URL changes
+  useEffect(() => {
+    if (ollamaUrl) {
+      fetchModels();
+    }
+  }, [ollamaUrl]);
+
+  // Function to fetch available models
+  const fetchModels = async () => {
+    setIsLoadingModels(true);
+    setModelError(null);
+
+    try {
+      const models = await getModels(ollamaUrl);
+      setAvailableModels(models);
+
+      // Set the default model to the first available model if there are any
+      if (models.length > 0) {
+        setModel(models[0].name);
+      }
+    } catch (err) {
+      console.error('Error fetching models:', err);
+      setModelError(err.message || 'Failed to fetch available models');
+    } finally {
+      setIsLoadingModels(false);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -35,13 +66,49 @@ function PromptForm({ ollamaUrl }) {
 
       <div className="model-selector">
         <label htmlFor="model">Model:</label>
-        <input
-          type="text"
-          id="model"
-          value={model}
-          onChange={(e) => setModel(e.target.value)}
-          placeholder="Enter model name (e.g., llama2)"
-        />
+        {isLoadingModels ? (
+          <div className="loading-models">Loading available models...</div>
+        ) : modelError ? (
+          <div className="model-error">
+            <p>{modelError}</p>
+            <input
+              type="text"
+              id="model"
+              value={model}
+              onChange={(e) => setModel(e.target.value)}
+              placeholder="Enter model name (e.g., llama2)"
+            />
+          </div>
+        ) : availableModels.length > 0 ? (
+          <select
+            id="model"
+            value={model}
+            onChange={(e) => setModel(e.target.value)}
+            className="model-dropdown"
+          >
+            {availableModels.map((model) => (
+              <option key={model.name} value={model.name}>
+                {model.name} ({(model.size / (1024 * 1024 * 1024)).toFixed(1)} GB)
+              </option>
+            ))}
+          </select>
+        ) : (
+          <input
+            type="text"
+            id="model"
+            value={model}
+            onChange={(e) => setModel(e.target.value)}
+            placeholder="Enter model name (e.g., llama2)"
+          />
+        )}
+        <button
+          type="button"
+          className="refresh-models-btn"
+          onClick={fetchModels}
+          disabled={isLoadingModels}
+        >
+          {isLoadingModels ? "Loading..." : "Refresh Models"}
+        </button>
       </div>
 
       <form onSubmit={handleSubmit}>
