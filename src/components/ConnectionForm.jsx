@@ -30,9 +30,6 @@ function ConnectionForm({ onConnectionSuccess }) {
       <p>
         Make sure you have Ollama running locally on your machine.
       </p>
-      <p className="info-message">
-        This app uses a proxy server to handle CORS issues, so you don't need a CORS browser extension anymore!
-      </p>
 
       <form onSubmit={handleConnect}>
         <div className="form-group">

@@ -1,0 +1,49 @@
+{
+  "name": "simple-ollama-connection",
+  "productName": "Simple Ollama Connection",
+  "version": "1.0.0",
+  "description": "Connect to your local Ollama instance and chat with your LLMs",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "concurrently \"cd .. && npm run dev\" \"electron .\"",
+    "build": "cd .. && npm run build",
+    "package-mac": "electron-builder --mac",
+    "package-win": "electron-builder --win",
+    "package-all": "electron-builder --mac --win"
+  },
+  "author": "Simple Ollama Connection Team",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "electron": "^29.0.0",
+    "electron-builder": "^24.9.1"
+  },
+  "dependencies": {
+    "axios": "^1.6.2",
+    "cors": "^2.8.5",
+    "electron-is-dev": "^2.0.0",
+    "express": "^4.18.2"
+  },
+  "build": {
+    "appId": "com.simpleollamaconnection.app",
+    "productName": "Simple Ollama Connection",
+    "files": [
+      "main.js",
+      "preload.js",
+      "../dist/**/*"
+    ],
+    "directories": {
+      "output": "dist"
+    },
+    "mac": {
+      "category": "public.app-category.utilities",
+      "target": ["dmg", "zip"],
+      "icon": "icons/icon.icns"
+    },
+    "win": {
+      "target": ["nsis"],
+      "icon": "icons/icon.ico"
+    }
+  }
+}

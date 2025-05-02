@@ -2,10 +2,9 @@
  * Service to handle communication with the Ollama API through a proxy server
  */
 
-// Get the proxy server URL - in development it's the local server, in production it's the deployed server
-const PROXY_URL = import.meta.env.PROD
-  ? '' // Empty string means use relative URL in production
-  : 'http://localhost:3001';
+// Get the proxy server URL - always use localhost:3001 since we're in an Electron app
+// The Electron app runs the proxy server on port 3001
+const PROXY_URL = 'http://localhost:3001';
 
 /**
  * Send a prompt to the Ollama API

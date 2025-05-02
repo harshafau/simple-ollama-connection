@@ -15,7 +15,7 @@ function App() {
   return (
     <div className="app-container">
       <header>
-        <h1>Ollama Web Interface</h1>
+        <h1>Simple Ollama Connection</h1>
         <p>Connect to your local Ollama instance and chat with your LLMs</p>
       </header>
 
@@ -38,7 +38,7 @@ function App() {
           Note: This app requires a local Ollama instance running on your machine.
         </p>
         <p className="small">
-          Powered by a proxy server to handle CORS issues. <a href="https://github.com/harshafau/simple-ollama-connection" target="_blank" rel="noopener noreferrer">View on GitHub</a>
+          <a href="https://github.com/harshafau/simple-ollama-connection" target="_blank" rel="noopener noreferrer">View on GitHub</a>
         </p>
       </footer>
     </div>
