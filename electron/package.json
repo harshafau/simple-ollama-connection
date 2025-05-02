@@ -8,9 +8,11 @@
     "start": "electron .",
     "dev": "concurrently \"cd .. && npm run dev\" \"electron .\"",
     "build": "cd .. && npm run build",
-    "package-mac": "electron-builder --mac",
+    "package-mac": "electron-builder --mac --universal",
+    "package-mac-arm64": "electron-builder --mac --arm64",
+    "package-mac-x64": "electron-builder --mac --x64",
     "package-win": "electron-builder --win",
-    "package-all": "electron-builder --mac --win"
+    "package-all": "electron-builder --mac --universal --win"
   },
   "author": "Simple Ollama Connection Team",
   "license": "MIT",
@@ -34,18 +36,37 @@
     "productName": "Simple Ollama Connection",
     "files": [
       "main.js",
-      "preload.js",
-      "../dist/**/*"
+      "preload.js"
+    ],
+    "extraResources": [
+      {
+        "from": "../dist",
+        "to": "dist"
+      }
     ],
     "directories": {
-      "output": "dist",
-      "buildResources": "build"
+      "output": "dist"
     },
     "mac": {
       "category": "public.app-category.utilities",
-      "icon": "build/icon.png",
       "target": ["dmg", "zip"],
-      "darkModeSupport": true
+      "darkModeSupport": true,
+      "artifactName": "${productName}-${version}-${arch}.${ext}",
+      "hardenedRuntime": true,
+      "gatekeeperAssess": false
+    },
+    "win": {
+      "icon": "build/icons/icon.ico",
+      "target": ["nsis"],
+      "artifactName": "${productName}-${version}-setup.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Simple Ollama Connection",
+      "uninstallDisplayName": "Simple Ollama Connection"
     },
     "dmg": {
       "contents": [
