@@ -1,0 +1,3 @@
+@echo off
+echo Starting SimpleOllamaConnection...
+start SimpleOllamaConnection.exe

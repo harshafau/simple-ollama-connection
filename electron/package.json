@@ -36,7 +36,8 @@
     "productName": "SimpleOllamaConnection",
     "files": [
       "main.js",
-      "preload.js"
+      "preload.js",
+      "start-app.bat"
     ],
     "extraResources": [
       {
@@ -57,8 +58,8 @@
     },
     "win": {
       "icon": "build/icons/icon.ico",
-      "target": ["nsis"],
-      "artifactName": "${productName}-Setup-${version}.${ext}"
+      "target": ["portable", "zip"],
+      "artifactName": "${productName}-Portable-${version}.${ext}"
     },
     "nsis": {
       "oneClick": false,

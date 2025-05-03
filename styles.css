@@ -259,6 +259,13 @@ nav a:hover {
     color: var(--text-light);
 }
 
+.download-options-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
 .version {
     font-size: 0.9rem;
     margin-top: 1rem;
@@ -395,6 +402,20 @@ nav a:hover {
     font-size: 1.3rem;
     margin-bottom: 1rem;
     color: var(--primary-color);
+}
+
+.faq-item h4 {
+    font-size: 1.1rem;
+    margin: 1.25rem 0 0.5rem;
+    color: var(--secondary-color);
+}
+
+.faq-item ol {
+    margin: 0.5rem 0 1rem 1.5rem;
+}
+
+.faq-item li {
+    margin-bottom: 0.5rem;
 }
 
 /* Footer */
